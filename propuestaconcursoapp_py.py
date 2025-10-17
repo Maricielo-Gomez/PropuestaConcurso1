@@ -12,7 +12,7 @@ Original file is located at
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 # -----------------------------
 
-pip install streamlit yfinance
+#pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
@@ -20,11 +20,16 @@ import numpy as np
 import yfinance as yf
 import matplotlib.pyplot as plt
 
-# -----------------------------
 # 🎯 TÍTULO Y DESCRIPCIÓN
-# -----------------------------
-st.title("💸 ¿Qué tipo de inversor eres?")
+
+st.title("💸 ¿Qué tipo de inversor eres? Tu estilo, tu riesgo, tu inversión.")
 st.markdown("""
 Esta app te ayuda a identificar tu *perfil de inversor* y analizar el comportamiento de acciones reales.
 Elige tus preferencias y descubre cómo se ajustan a los distintos tipos de portafolio. 🚀
 """)
+
+# 🧭 CUESTIONARIO DE PERFIL
+
+st.header("🧩 Cuestionario del inversor")
+
+riesgo = st.radio("¿Qué nivel de riesgo estás dispuesta(o) a asumir?", ["Bajo", "Medio", "Alto"])
