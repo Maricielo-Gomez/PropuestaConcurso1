@@ -33,3 +33,17 @@ Elige tus preferencias y descubre cómo se ajustan a los distintos tipos de port
 st.header("🧩 Cuestionario del inversor")
 
 riesgo = st.radio("¿Qué nivel de riesgo estás dispuesta(o) a asumir?", ["Bajo", "Medio", "Alto"])
+
+plazo = st.selectbox("¿Cuál es tu horizonte de inversión?", ["Corto plazo", "Mediano plazo", "Largo plazo"])
+
+experiencia = st.slider("¿Qué tanto conoces sobre inversiones?", 0, 10, 5)
+
+# Definir perfil del inversor según respuestas
+if riesgo == "Bajo" and plazo == "Corto plazo":
+    perfil = "Conservador"
+elif riesgo == "Medio":
+    perfil = "Moderado"
+else:
+    perfil = "Agresivo"
+
+st.subheader(f"🎯 Tu perfil de inversor es: *{perfil}*")
