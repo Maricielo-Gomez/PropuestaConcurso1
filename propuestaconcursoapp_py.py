@@ -11,7 +11,7 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+!pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
@@ -49,3 +49,9 @@ else:
     perfil = "Agresivo"
 
 st.subheader(f"🎯 Tu perfil de inversor es: *{perfil}*")
+
+# 1. Widget st.text_input para la entrada del ticker
+ticker_ingresado = st.text_input(
+    label="Escribe el Ticker del Activo (ej: AAPL, MSFT, TSLA):",
+    value="MSFT" # Valor predeterminado para el ejemplo
+).upper() # Convierte a mayúsculas para el formato estándar del ticker
