@@ -11,13 +11,15 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
 import numpy as np
 import yfinance as yf
 import matplotlib.pyplot as plt
+
+tab1, tab2, tab3 = st.tabs(["👤 Perfil del Inversor", "📈 Simulación de Portafolio", "📚 Referencias"])
 
 # 🎯 TÍTULO Y DESCRIPCIÓN
 
@@ -26,20 +28,17 @@ st.write("")
 st.title("✨ Tu estilo, tu riesgo, tu inversión.")
 st.markdown("""
 Esta app te ayuda a identificar tu *perfil de inversor* y analizar el comportamiento de acciones reales.""")
-st.markdown("")
 st.markdown("Elige tus preferencias y descubre cómo se ajustan a los distintos tipos de portafolio.")
 st.markdown("*Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez*")
 
 # 🧭 CUESTIONARIO DE PERFIL
 
-st.header("🧩 Cuestionario del inversor")
-st.title("👤 Descubre tu Perfil de Inversor")
+st.title("🧩 Cuestionario del inversor")
+st.header("👤 Descubre tu Perfil de Inversor")
 st.markdown("Responde las siguientes preguntas para determinar tu tolerancia al riesgo, horizonte y conocimiento.")
 st.markdown("---")
 
 puntaje_total = 0
-
-riesgo = st.radio("¿Qué nivel de riesgo estás dispuesta(o) a asumir?", ["Bajo", "Medio", "Alto"])
 
 st.header("I. Tolerancia al Riesgo (La Reacción a la Volatilidad)")
 
@@ -121,10 +120,10 @@ if q6:
 
 # Pregunta 7: Experiencia con Instrumentos
 q7 = st.radio(
-    "7. ¿Ha invertido en productos complejos como futuros, opciones o apalancamiento?",
-    ('A) Nunca. (1 punto)',
-     'B) Lo he considerado o solo en demo. (3 puntos)',
-     'C) Sí, los utilizo frecuentemente. (5 puntos)'),
+    "7. ¿En qué tipos de activos ha invertido o analizado con frecuencia?",
+    ('A) Solo Cuentas de Ahorro, Depósitos (CDTs) y Fondos de inversión colectiva. (1 punto)',
+     'B) Acciones individuales (AAPL, MSFT) y Bonos. Entiendo la diversificación. (3 puntos)',
+     'C) Futuros, Opciones, Criptomonedas, o he usado Apalancamiento/Venta en Corto. (5 puntos)'),
     index=None
 )
 if q7:
