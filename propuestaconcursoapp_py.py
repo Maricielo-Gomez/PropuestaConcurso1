@@ -11,7 +11,7 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
@@ -22,8 +22,6 @@ import matplotlib.pyplot as plt
 tab1, tab2, tab3 = st.tabs(["👤 Perfil del Inversor", "📈 Simulación de Portafolio", "📚 Referencias"])
 
 with tab1:
-    # 🎯 TÍTULO Y DESCRIPCIÓN
-
     st.title("💸 ¿Qué tipo de inversor eres?")
     st.write("")
     st.title("✨ Tu estilo, tu riesgo, tu inversión.")
@@ -32,7 +30,7 @@ with tab1:
     st.markdown("Elige tus preferencias y descubre cómo se ajustan a los distintos tipos de portafolio.")
     st.markdown("*Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez*")
 
-# 🧭 CUESTIONARIO DE PERFIL
+    # 🧭 CUESTIONARIO DE PERFIL
 
 st.title("🧩 Cuestionario del inversor")
 st.header("👤 Descubre tu Perfil de Inversor")
