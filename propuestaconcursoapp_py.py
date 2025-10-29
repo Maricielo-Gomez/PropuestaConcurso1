@@ -11,7 +11,7 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
@@ -65,7 +65,7 @@ with tab1:
     index=None
     )
     if q2:
-    puntaje_total += int(q2.split('(')[-1].split()[0])
+        puntaje_total += int(q2.split('(')[-1].split()[0])
 
     # Pregunta 3: Volatilidad Aceptable
     q3 = st.radio(
@@ -80,92 +80,92 @@ with tab1:
 
     st.markdown("---")
 
-# --- SECCIÓN II: HORIZONTE DE INVERSIÓN (2 Preguntas) ---
-st.header("II. Horizonte de Inversión (Plazo)")
+    # --- SECCIÓN II: HORIZONTE DE INVERSIÓN (2 Preguntas) ---
+    st.header("II. Horizonte de Inversión (Plazo)")
 
-# Pregunta 4: Mayor Objetivo
-q4 = st.radio(
-"4. ¿Para qué objetivo principal está destinando este dinero?",
-('A) Necesidades a corto plazo (1-3 años). (1 punto)',
-  'B) Mediano plazo (3-7 años). (3 puntos)',
-  'C) Largo plazo/Jubilación (más de 7 años). (5 puntos)'),
-index=None
-)
-if q4:
-puntaje_total += int(q4.split('(')[-1].split()[0])
+    # Pregunta 4: Mayor Objetivo
+    q4 = st.radio(
+    "4. ¿Para qué objetivo principal está destinando este dinero?",
+    ('A) Necesidades a corto plazo (1-3 años). (1 punto)',
+    'B) Mediano plazo (3-7 años). (3 puntos)',
+    'C) Largo plazo/Jubilación (más de 7 años). (5 puntos)'),
+    index=None
+    )
+    if q4:
+        puntaje_total += int(q4.split('(')[-1].split()[0])
 
-# Pregunta 5: Momento de Retiro
-q5 = st.radio(
-"5. ¿En cuántos años planea retirar la mayor parte de este capital?",
-('A) Menos de 2 años. (1 punto)',
-  'B) 5 a 10 años. (3 puntos)',
-  'C) Más de 15 años. (5 puntos)'),
-index=None
-)
-if q5:
-puntaje_total += int(q5.split('(')[-1].split()[0])
+    # Pregunta 5: Momento de Retiro
+    q5 = st.radio(
+    "5. ¿En cuántos años planea retirar la mayor parte de este capital?",
+    ('A) Menos de 2 años. (1 punto)',
+    'B) 5 a 10 años. (3 puntos)',
+    'C) Más de 15 años. (5 puntos)'),
+    index=None
+    )
+    if q5:
+        puntaje_total += int(q5.split('(')[-1].split()[0])
 
-st.markdown("---")
+    st.markdown("---")
 
-# --- SECCIÓN III: CONOCIMIENTO Y EXPERIENCIA (2 Preguntas) ---
-st.header("III. Conocimiento y Experiencia")
+    # --- SECCIÓN III: CONOCIMIENTO Y EXPERIENCIA (2 Preguntas) ---
+    st.header("III. Conocimiento y Experiencia")
 
-# Pregunta 6: Familiaridad con Métricas
-q6 = st.radio(
-"6. ¿Qué tan familiarizado está con el Ratio de Sharpe o el Modelo CAPM?",
-('A) Nada familiarizado. (1 punto)',
-  'B) Entiendo los conceptos básicos. (3 puntos)',
-  'C) Los uso frecuentemente en mi análisis. (5 puntos)'),
-index=None
-)
-if q6:
-puntaje_total += int(q6.split('(')[-1].split()[0])
+    # Pregunta 6: Familiaridad con Métricas
+    q6 = st.radio(
+    "6. ¿Qué tan familiarizado está con el Ratio de Sharpe o el Modelo CAPM?",
+    ('A) Nada familiarizado. (1 punto)',
+    'B) Entiendo los conceptos básicos. (3 puntos)',
+    'C) Los uso frecuentemente en mi análisis. (5 puntos)'),
+    index=None
+    )
+    if q6:
+        puntaje_total += int(q6.split('(')[-1].split()[0])
 
-# Pregunta 7: Experiencia con Instrumentos
-q7 = st.radio(
-"7. ¿En qué tipos de activos ha invertido o analizado con frecuencia?",
-('A) Solo Cuentas de Ahorro, Depósitos (CDTs) y Fondos de inversión colectiva. (1 punto)',
-  'B) Acciones individuales (AAPL, MSFT) y Bonos. Entiendo la diversificación. (3 puntos)',
-  'C) Futuros, Opciones, Criptomonedas, o he usado Apalancamiento/Venta en Corto. (5 puntos)'),
-index=None
-)
-if q7:
-puntaje_total += int(q7.split('(')[-1].split()[0])
+    # Pregunta 7: Experiencia con Instrumentos
+    q7 = st.radio(
+    "7. ¿En qué tipos de activos ha invertido o analizado con frecuencia?",
+    ('A) Solo Cuentas de Ahorro, Depósitos (CDTs) y Fondos de inversión colectiva. (1 punto)',
+      'B) Acciones individuales (AAPL, MSFT) y Bonos. Entiendo la diversificación. (3 puntos)',
+      'C) Futuros, Opciones, Criptomonedas, o he usado Apalancamiento/Venta en Corto. (5 puntos)'),
+    index=None
+    )
+    if q7:
+        puntaje_total += int(q7.split('(')[-1].split()[0])
 
-st.markdown("---")
+    st.markdown("---")
 
 # --- BOTÓN Y CÁLCULO FINAL ---
 
-# Se verifica que todas las preguntas hayan sido respondidas antes de permitir el cálculo
-preguntas_respondidas = all([q1, q2, q3, q4, q5, q6, q7])
+    # Se verifica que todas las preguntas hayan sido respondidas antes de permitir el cálculo
+    preguntas_respondidas = all([q1, q2, q3, q4, q5, q6, q7])
 
-if st.button("Calcular mi Perfil de Inversor"):
-if preguntas_respondidas:
+    if st.button("Calcular mi Perfil de Inversor"):
+        if preguntas_respondidas:
 
-    st.subheader("🎉 Resultado de tu Perfil de Inversor")
-    st.metric("Puntuación Total", puntaje_total)
+            st.subheader("🎉 Resultado de tu Perfil de Inversor")
+            st.metric("Puntuación Total", puntaje_total)
 
-    # Lógica de Clasificación del Perfil (Basada en 7-35 puntos)
-    if puntaje_total <= 15:
-        perfil = "Conservador (Preservación del Capital)🛡️"
-        st.success(f"Tu perfil es: **{perfil}**")
-        st.write("Tu prioridad es la seguridad. Se recomienda invertir en activos de Renta Fija y baja volatilidad.")
-        st.session_state.perfil = "CONSERVADOR" # Initialize session state
+            # Lógica de Clasificación del Perfil (Basada en 7-35 puntos)
+            if puntaje_total <= 15:
+                perfil = "Conservador (Preservación del Capital)🛡️"
+                st.success(f"Tu perfil es: **{perfil}**")
+                st.write("Tu prioridad es la seguridad. Se recomienda invertir en activos de Renta Fija y baja volatilidad.")
+                st.session_state.perfil = "CONSERVADOR" # Initialize session state
 
-    elif puntaje_total <= 25:
-        perfil = "Moderado / Equilibrado (Crecimiento y Estabilidad) 🌿"
-        st.info(f"Tu perfil es: **{perfil}**")
-        st.write("Buscas un balance. Se recomienda una cartera diversificada que combine renta fija y renta variable (Modelo Markowitz).")
-        st.session_state.perfil = "MODERADO" # Initialize session state
+            elif puntaje_total <= 25:
+                perfil = "Moderado / Equilibrado (Crecimiento y Estabilidad) 🌿"
+                st.info(f"Tu perfil es: **{perfil}**")
+                st.write("Buscas un balance. Se recomienda una cartera diversificada que combine renta fija y renta variable (Modelo Markowitz).")
+                st.session_state.perfil = "MODERADO" # Initialize session state
 
-    else: # puntaje_total > 25
-        perfil = "Arriesgado / Crecimiento (Máximo Rendimiento) 🔥"
-        st.warning(f"Tu perfil es: **{perfil}**")
-        st.write("Tienes una alta tolerancia al riesgo y conocimiento. Se recomienda enfocarse en la eficiencia del portafolio (Ratio de Sharpe).")
-        st.session_state.perfil = "ARRIESGADO" # Initialize session state
+            else: # puntaje_total > 25
+                perfil = "Arriesgado / Crecimiento (Máximo Rendimiento) 🔥"
+                st.warning(f"Tu perfil es: **{perfil}**")
+                st.write("Tienes una alta tolerancia al riesgo y conocimiento. Se recomienda enfocarse en la eficiencia del portafolio (Ratio de Sharpe).")
+                st.session_state.perfil = "ARRIESGADO" # Initialize session state
 
-else:
-    st.error("Por favor, responde todas las preguntas para obtener tu resultado.")
+        else:
+            st.error("Por favor, responde todas las preguntas para obtener tu resultado.")
 
 with tab2:
     st.header("📈 Simulación de Portafolio y Resultados")
