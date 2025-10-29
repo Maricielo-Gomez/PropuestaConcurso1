@@ -11,13 +11,17 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
 import numpy as np
 import yfinance as yf
 import matplotlib.pyplot as plt
+
+# Initialize session state for 'perfil' at the beginning of the script
+if 'perfil' not in st.session_state:
+    st.session_state.perfil = None
 
 tab1, tab2, tab3 = st.tabs(["👤 Perfil del Inversor", "📈 Simulación de Portafolio", "📚 Referencias"])
 
@@ -33,13 +37,13 @@ with tab1:
     # 🧭 CUESTIONARIO DE PERFIL
 
 st.title("🧩 Cuestionario del inversor")
-st.header("👤 Descubre tu Perfil de Inversor")
+st.header("👤 Descubre tu perfil de inversor")
 st.markdown("Responde las siguientes preguntas para determinar tu tolerancia al riesgo, horizonte y conocimiento.")
 st.markdown("---")
 
 puntaje_total = 0
 
-st.header("I. Tolerancia al Riesgo (La Reacción a la Volatilidad)")
+st.header("I. Tolerancia al riesgo (Tu Reacción a la volatilidad)")
 
 # Pregunta 1: Reacción a la Pérdida
 q1 = st.radio(
@@ -52,7 +56,7 @@ q1 = st.radio(
 if q1:
     puntaje_total += int(q1.split('(')[-1].split()[0])
 
-# Pregunta 2: Prioridad de Inversión
+# Pregunta 2: Prioridad de inversión
 q2 = st.radio(
     "2. ¿Qué es más importante para usted?",
     ('A) Preservar el capital y obtener un retorno bajo pero seguro. (1 punto)',
@@ -146,16 +150,29 @@ if st.button("Calcular mi Perfil de Inversor"):
             perfil = "Conservador (Preservación del Capital)🛡️"
             st.success(f"Tu perfil es: **{perfil}**")
             st.write("Tu prioridad es la seguridad. Se recomienda invertir en activos de Renta Fija y baja volatilidad.")
+            st.session_state.perfil = "CONSERVADOR" # Initialize session state
 
         elif puntaje_total <= 25:
             perfil = "Moderado / Equilibrado (Crecimiento y Estabilidad) 🌿"
             st.info(f"Tu perfil es: **{perfil}**")
             st.write("Buscas un balance. Se recomienda una cartera diversificada que combine renta fija y renta variable (Modelo Markowitz).")
+            st.session_state.perfil = "MODERADO" # Initialize session state
 
         else: # puntaje_total > 25
             perfil = "Arriesgado / Crecimiento (Máximo Rendimiento) 🔥"
             st.warning(f"Tu perfil es: **{perfil}**")
             st.write("Tienes una alta tolerancia al riesgo y conocimiento. Se recomienda enfocarse en la eficiencia del portafolio (Ratio de Sharpe).")
+            st.session_state.perfil = "ARRIESGADO" # Initialize session state
 
     else:
         st.error("Por favor, responde todas las preguntas para obtener tu resultado.")
+
+with tab2:
+    st.header("📈 Simulación de Portafolio y Resultados")
+    st.markdown("---")
+
+    # Usamos el estado de sesión guardado en la Pestaña 1
+    if st.session_state.perfil is None:
+        st.error("🛑 Por favor, completa el **Cuestionario del Inversor** en la pestaña anterior para desbloquear la simulación.")
+    else:
+        st.success(f"Perfil Actual: **{st.session_state.perfil}**. ¡Configura tu simulación!")
