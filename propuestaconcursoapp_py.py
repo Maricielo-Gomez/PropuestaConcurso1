@@ -11,7 +11,7 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-pip install streamlit yfinance
+#pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
