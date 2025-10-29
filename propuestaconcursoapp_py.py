@@ -11,7 +11,7 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
@@ -176,3 +176,10 @@ with tab2:
         st.error("🛑 Por favor, completa el **Cuestionario del Inversor** en la pestaña anterior para desbloquear la simulación.")
     else:
         st.success(f"Perfil Actual: **{st.session_state.perfil}**. ¡Configura tu simulación!")
+
+        st.subheader("Configuración de Accciones")
+        # Entrada para un solo ticker
+        single_ticker = st.text_input(
+            "Ingrese **un único Ticker** para análisis individual (ej: AAPL)",
+            ...
+        )
