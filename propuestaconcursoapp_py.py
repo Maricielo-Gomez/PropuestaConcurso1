@@ -11,7 +11,7 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
@@ -199,3 +199,81 @@ with tab2:
           )
 
         st.write("El rango seleccionado es:", d)
+                # Mostrar el botón de simulación solo si hay tickers ingresados
+        if num_activos > 0:
+            if st.button("Ejecutar Simulación de Portafolio"):
+
+                # Descarga de datos
+                datos, benchmark_data = get_data(tickers, start_date, end_date)
+
+                if datos.empty:
+                    st.error("No se pudieron descargar los datos. Revise los símbolos de los tickers o el rango de fechas.")
+                    pass
+
+                # CÁLCULOS BÁSICOS
+                retornos = datos.pct_change().dropna()
+                benchmark_retornos = benchmark_data.pct_change().dropna()
+
+                # Asegurar alineación de retornos
+                retornos = pd.merge(retornos, benchmark_retornos, left_index=True, right_index=True, how='inner').drop(columns=[MARKET_TICKER])
+                benchmark_retornos = benchmark_retornos.loc[retornos.index]
+
+                retorno_anual = retornos.mean() * 252
+                volatilidad_anual = retornos.std() * np.sqrt(252)
+
+                # --- CÁLCULO CAPM ---
+                betas = calculate_beta(retornos, benchmark_retornos)
+                # Retorno del Mercado (Rm) anualizado
+                Rm = benchmark_retornos.mean().iloc[0] * 252
+
+                # Calcular Retorno Esperado por CAPM: E[Ri] = Rf + Beta * (Rm - Rf)
+                retorno_capm = {}
+                for t, beta in betas.items():
+                    retorno_capm[t] = RF + beta * (Rm - RF)
+                retorno_capm_series = pd.Series(retorno_capm)
+
+                # Mostrar tabla de métricas individuales
+                st.subheader("1. Métricas Individuales de Activos")
+
+                # Cálculo del Ratio de Sharpe individual para la tabla
+                sharpe_anual = (retorno_anual - RF) / volatilidad_anual
+
+                metricas_df = pd.DataFrame({
+                    'Retorno Anual Esperado (Histórico)': retorno_anual.apply(lambda x: f"{x*100:.2f}%"),
+                    'Retorno Esperado (CAPM)': retorno_capm_series.apply(lambda x: f"{x*100:.2f}%"),
+                    'Volatilidad Anual (Riesgo)': volatilidad_anual.apply(lambda x: f"{x*100:.2f}%"),
+                    'Beta (vs. S&P 500)': pd.Series(betas).round(2),
+                    'Ratio de Sharpe': sharpe_anual.round(2)
+                })
+
+                # Reindexar la tabla para asegurar que el orden de los Tickers sea el mismo
+                metricas_df = metricas_df.reindex(columns=['Retorno Anual Esperado (Histórico)', 'Retorno Esperado (CAPM)', 'Volatilidad Anual (Riesgo)', 'Beta (vs. S&P 500)', 'Ratio de Sharpe'])
+
+                st.dataframe(metricas_df)
+
+
+                st.subheader(f"2. Análisis del Portafolio (Basado en Perfil {st.session_state.perfil})")
+
+                if num_activos == 1:
+                    # --- CÁLCULO PARA 1 ACCIÓN ---
+                    st.markdown("⚠️ **Solo se ingresó 1 activo:** El 'portafolio' es la acción individual. No hay beneficios de diversificación.")
+
+                    retorno_p = retorno_anual.iloc[0]
+                    volatilidad_p = volatilidad_anual.iloc[0]
+                    sharpe_p = sharpe_anual.iloc[0]
+
+                    col_ret, col_vol, col_sharpe = st.columns(3)
+
+                    with col_ret:
+                        st.metric("Retorno Esperado", f"{retorno_p*100:.2f}%")
+                    with col_vol:
+                        st.metric("Volatilidad (Riesgo)", f"{volatilidad_p*100:.2f}%")
+                    with col_sharpe:
+                        st.metric("Ratio de Sharpe", f"{sharpe_p:.2f}")
+
+                    # Gráfico de precios históricos para el análisis individual
+                    st.markdown("#### Evolución Histórica de Precios")
+                    # Para evitar el error de Streamlit si la descarga de datos devuelve una Serie,
+                    # nos aseguramos de que sea un DataFrame con el nombre de columna.
+                    if isinstance(datos, pd.Series):
+                        datos = datos.to_frame(name=single_ticker)
