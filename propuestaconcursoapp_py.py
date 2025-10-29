@@ -11,7 +11,7 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
@@ -179,7 +179,7 @@ with tab2:
 
         st.subheader("Configuración de Acciones")
         single_ticker = st.text_input(
-            "Ingrese **un único Ticker** para análisis individual (ej: AAPL)",
+            "Ingrese **un único Ticker** para análisis individual (ej: AAPL, AMZN, GOOG, MSFT	)",
             value=""
         )
 
@@ -202,7 +202,7 @@ with tab2:
         if st.button("Analicemos esta acción!"):
             # Code to analyze the single ticker goes here
             # For now, I'll just add a placeholder
-            st.write("Analyzing:", single_ticker)
+            st.write("Analizando:", single_ticker)
 
         # Moved from Lwp8xErbI3SX
         # Mostrar el botón de simulación solo si hay tickers ingresados
@@ -213,7 +213,7 @@ with tab2:
                 def get_data(tickers, start_date, end_date, benchmark_ticker="^GSPC"):
                     """Downloads historical data for tickers and a benchmark."""
                     data = yf.download(tickers, start=start_date, end=end_date)['Close']
-                    benchmark_data = yf.download(benchmark_ticker, start=start_date, end=end_date)['Adj Close']
+                    benchmark_data = yf.download(benchmark_ticker, start=start_date, end=end_date)['Close']
                     return data, benchmark_data
 
                 # Define calculate_beta function
