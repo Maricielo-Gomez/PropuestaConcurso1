@@ -212,7 +212,7 @@ with tab2:
                 # Define get_data function
                 def get_data(tickers, start_date, end_date, benchmark_ticker="^GSPC"):
                     """Downloads historical data for tickers and a benchmark."""
-                    data = yf.download(tickers, start=start_date, end=end_date)['Adj Close']
+                    data = yf.download(tickers, start=start_date, end=end_date)['Close']
                     benchmark_data = yf.download(benchmark_ticker, start=start_date, end=end_date)['Adj Close']
                     return data, benchmark_data
 
