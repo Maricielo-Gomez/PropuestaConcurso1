@@ -11,13 +11,14 @@ Original file is located at
 # Desarrollado por: Alejandro Cañas, Emmanuel García, Maricielo Gómez
 # Descripción: App que determina el perfil del inversor y analiza acciones con Python.
 
-#pip install streamlit yfinance
+pip install streamlit yfinance
 
 import streamlit as st
 import pandas as pd
 import numpy as np
 import yfinance as yf
 import matplotlib.pyplot as plt
+import datetime
 
 # Initialize session state for 'perfil' at the beginning of the script
 if 'perfil' not in st.session_state:
@@ -183,3 +184,18 @@ with tab2:
             "Ingrese **un único Ticker** para análisis individual (ej: AAPL)",
             ...
         )
+        # Definir la fecha de hoy (Fin del rango)
+        today = datetime.date.today()
+        # Definir la fecha de inicio (Hoy menos 3 años)
+        three_years_ago = today - datetime.timedelta(days=3 * 365)
+        st.header("Selector de rango de Fechas Históricas")
+        d = st.date_input(
+        "Seleccione el período histórico para el análisis",
+        # El valor inicial es una tupla: (Fecha de Inicio, Fecha de Fin)
+        value=(three_years_ago, today),
+        min_value=datetime.date(1990, 1, 1), # Límite histórico mínimo
+        max_value=today, # Límite máximo: hoy
+        format="MM.DD.YYYY",
+          )
+
+        st.write("El rango seleccionado es:", d)
